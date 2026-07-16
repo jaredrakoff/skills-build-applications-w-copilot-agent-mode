@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
-import { apiUrl, toItems } from '../config/api'
+import { toItems } from '../config/api'
 
-// Fetch a resource collection from the API and expose loading/error state.
+// Fetch a collection from the given API URL and expose loading/error state.
 // Keeps compatibility with paginated and array responses via `toItems`.
-export function useApiCollection(resource) {
+export function useApiCollection(url) {
   const [items, setItems] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -13,7 +13,7 @@ export function useApiCollection(resource) {
     setLoading(true)
     setError(null)
 
-    fetch(apiUrl(resource))
+    fetch(url)
       .then((response) => {
         if (!response.ok) {
           throw new Error(`Request failed with status ${response.status}`)
@@ -39,7 +39,7 @@ export function useApiCollection(resource) {
     return () => {
       active = false
     }
-  }, [resource])
+  }, [url])
 
   return { items, loading, error }
 }

@@ -1,5 +1,12 @@
 import { useApiCollection } from '../hooks/useApiCollection'
 
+// API endpoint under https://${VITE_CODESPACE_NAME}-8000.app.github.dev/api/activities/
+// Falls back to localhost when VITE_CODESPACE_NAME is unset.
+const codespaceName = import.meta.env.VITE_CODESPACE_NAME
+const apiUrl = codespaceName
+  ? `https://${codespaceName}-8000.app.github.dev/api/activities/`
+  : 'http://localhost:8000/api/activities/'
+
 function formatDate(value) {
   if (!value) {
     return '—'
@@ -9,7 +16,7 @@ function formatDate(value) {
 }
 
 function Activities() {
-  const { items, loading, error } = useApiCollection('activities')
+  const { items, loading, error } = useApiCollection(apiUrl)
 
   return (
     <div>

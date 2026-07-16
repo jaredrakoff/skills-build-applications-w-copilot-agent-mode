@@ -1,7 +1,14 @@
 import { useApiCollection } from '../hooks/useApiCollection'
 
+// API endpoint under https://${VITE_CODESPACE_NAME}-8000.app.github.dev/api/leaderboard/
+// Falls back to localhost when VITE_CODESPACE_NAME is unset.
+const codespaceName = import.meta.env.VITE_CODESPACE_NAME
+const apiUrl = codespaceName
+  ? `https://${codespaceName}-8000.app.github.dev/api/leaderboard/`
+  : 'http://localhost:8000/api/leaderboard/'
+
 function Leaderboard() {
-  const { items, loading, error } = useApiCollection('leaderboard')
+  const { items, loading, error } = useApiCollection(apiUrl)
 
   return (
     <div>

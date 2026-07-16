@@ -1,5 +1,12 @@
 import { useApiCollection } from '../hooks/useApiCollection'
 
+// API endpoint under https://${VITE_CODESPACE_NAME}-8000.app.github.dev/api/workouts/
+// Falls back to localhost when VITE_CODESPACE_NAME is unset.
+const codespaceName = import.meta.env.VITE_CODESPACE_NAME
+const apiUrl = codespaceName
+  ? `https://${codespaceName}-8000.app.github.dev/api/workouts/`
+  : 'http://localhost:8000/api/workouts/'
+
 function describeExercises(exercises) {
   if (!Array.isArray(exercises) || exercises.length === 0) {
     return '—'
@@ -8,7 +15,7 @@ function describeExercises(exercises) {
 }
 
 function Workouts() {
-  const { items, loading, error } = useApiCollection('workouts')
+  const { items, loading, error } = useApiCollection(apiUrl)
 
   return (
     <div>
